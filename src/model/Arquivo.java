@@ -32,7 +32,7 @@ public class Arquivo {
                     moeda.setPrecocompra(Double.valueOf(row[4].replaceAll(",", ".")));
                     moeda.setPrecovenda(Double.valueOf(row[5].replaceAll(",", ".")));
                     moedas.add(moeda);
-                System.out.println(moeda.DatatoString()+"-"+moeda.getNome()+"-"+moeda.getPrecocompra()+"-"+moeda.getPrecovenda());
+                //System.out.println(moeda.DatatoString()+"-"+moeda.getNome()+"-"+moeda.getPrecocompra()+"-"+moeda.getPrecovenda());
         }
     } catch (FileNotFoundException e) {
         e.printStackTrace();
@@ -49,10 +49,11 @@ public class Arquivo {
     }
         return moedas;
   }
-  public List<Moeda> listarFiltro(List<Moeda> moedas){
+  public List<Moeda> listarFiltro(Date datainicial,Date datafinal){
+        List<Moeda> moedas=this.listarTodasMoedas();
         List modmoedas=new ArrayList<Moeda>();
-        //for(int i=0;i<moedas.size();i++){
-          //  if(moedas[i].)
+        for(int i=0;i<moedas.size();i++){
+            if(>moedas.get(i).getData())
                 
             //    }}
         return modmoedas;
