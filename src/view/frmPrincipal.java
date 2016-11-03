@@ -5,17 +5,21 @@
  */
 package view;
 
+import model.Arquivo;
+import model.tablemodel.MoedaTableModel;
+
 /**
  *
  * @author aluno
  */
 public class frmPrincipal extends javax.swing.JFrame {
-
+    
     /**
      * Creates new form frmPrincipal
      */
     public frmPrincipal() {
         initComponents();
+        jTable1.setModel(new MoedaTableModel(new Arquivo().listarTodasMoedas()));
     }
 
     /**
