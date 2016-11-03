@@ -5,21 +5,25 @@
  */
 package view;
 
-import model.Arquivo;
-import model.tablemodel.MoedaTableModel;
+import java.text.SimpleDateFormat;
+import javax.swing.JOptionPane;
+import javax.swing.text.MaskFormatter;
 
 /**
  *
  * @author aluno
  */
 public class frmPrincipal extends javax.swing.JFrame {
+
+    String nomeArquivo = "";
+    SimpleDateFormat formatoData;
     
     /**
      * Creates new form frmPrincipal
      */
     public frmPrincipal() {
+        formatoData = new SimpleDateFormat("dd/MM/yyyy");
         initComponents();
-        jTable1.setModel(new MoedaTableModel(new Arquivo().listarTodasMoedas()));
     }
 
     /**
@@ -33,15 +37,16 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jFileChooser1 = new javax.swing.JFileChooser();
         jLabel1 = new javax.swing.JLabel();
-        jFrmDataInicial = new javax.swing.JFormattedTextField();
+        jFrmDataInicial = new javax.swing.JFormattedTextField(formatoData);
         jLabel2 = new javax.swing.JLabel();
-        jFrmDataFinal = new javax.swing.JFormattedTextField();
+        jFrmDataFinal = new javax.swing.JFormattedTextField(formatoData);
         jBtnImportar = new javax.swing.JButton();
         jTabbedPane1 = new javax.swing.JTabbedPane();
         jScrollPane1 = new javax.swing.JScrollPane();
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLblGrafico = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,10 +99,13 @@ public class frmPrincipal extends javax.swing.JFrame {
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 349, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Gráfico", jPanel1);
+
+        jLabel3.setFont(new java.awt.Font("Tahoma", 0, 10)); // NOI18N
+        jLabel3.setText("<html><b>Desenvolvedores:</b> Douglas Kihara (kenjix), Nataly Pozzer (natalypozzer) e Volmar Madrid (volspeed).</html>");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -118,7 +126,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                             .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(30, 30, 30)
                         .addComponent(jBtnImportar)
-                        .addGap(0, 0, Short.MAX_VALUE)))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addComponent(jLabel3))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -138,11 +147,14 @@ public class frmPrincipal extends javax.swing.JFrame {
                         .addGap(29, 29, 29)
                         .addComponent(jBtnImportar)))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 377, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jFrmDataInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFrmDataInicialActionPerformed
@@ -150,7 +162,20 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jFrmDataInicialActionPerformed
 
     private void jBtnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnImportarActionPerformed
-        // TODO add your handling code here:
+        if (jFrmDataInicial.getValue() == null) {
+            JOptionPane.showMessageDialog(this, "O campo Data Inicial é de preenchimento obrigatório", "Conversor de Moedas", JOptionPane.ERROR_MESSAGE);
+            jFrmDataInicial.requestFocus();
+        } else if (jFrmDataFinal.getValue() == null) {
+            JOptionPane.showMessageDialog(this, "O campo Data Final é de preenchimento obrigatório", "Conversor de Moedas", JOptionPane.ERROR_MESSAGE);
+            jFrmDataFinal.requestFocus();
+        }
+        
+        jFileChooser1.setDialogTitle("Abrir");
+        int x = jFileChooser1.showOpenDialog(this);
+        if(x == jFileChooser1.APPROVE_OPTION){
+            nomeArquivo = jFileChooser1.getSelectedFile().getAbsolutePath() + ".csv";
+            setTitle(nomeArquivo);
+        }
     }//GEN-LAST:event_jBtnImportarActionPerformed
 
     /**
@@ -195,6 +220,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JFormattedTextField jFrmDataInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLblGrafico;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
