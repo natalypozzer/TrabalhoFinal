@@ -49,7 +49,7 @@ public class Arquivo {
     }
         return moedas;
   }
-  public List<Moeda> listarFiltro(Date datainicial,Date datafinal){
+  /*public List<Moeda> listarFiltro(Date datainicial,Date datafinal){
         List<Moeda> moedas=this.listarTodasMoedas();
         List modmoedas=new ArrayList<Moeda>();
         for(int i=0;i<moedas.size();i++){
@@ -57,8 +57,9 @@ public class Arquivo {
                 
             //    }}
         return modmoedas;
+    }*/
 
-}}
+}
   
      
 
