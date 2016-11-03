@@ -1,47 +1,75 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 package model;
 
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Date;
 
+/**
+ *
+ * @author Aluno
+ */
 public class Moeda {
     
-    //Atributos----------------------------------------------------------------------------------------------------
-    private String Nome;
-    private Date Data;
-    private double ValorCompra;
-    private double ValorVenda;
-
-    //Métodos Gets e Sets-----------------------------------------------------------------------------------------
+    private String nome;
+    private Date data;
+    private double precovenda;
+    private double precocompra;
+    public String DatatoString(){
+        if (data != null){
+            SimpleDateFormat formatoData = new 
+                            SimpleDateFormat("dd/MM/yyyy");
+            return formatoData.format(data );
+        }else{
+            return null;
+        }}
+    public void setData(String stdata){
+        try {
+            DateFormat formatter = new SimpleDateFormat("ddMMyyyy");
+            this.data = (Date)formatter.parse(stdata);
+        } catch (ParseException e) {            
+             e.printStackTrace();
+        }
+        
+	}
+    
     public String getNome() {
-        return Nome;
+        return nome;
     }
 
-    public void setNome(String Nome) {
-        this.Nome = Nome;
+    public void setNome(String nome) {
+        this.nome = nome;
     }
 
     public Date getData() {
-        return Data;
+        return data;
     }
 
-    public void setData(Date Data) {
-        this.Data = Data;
+    
+
+    public double getPrecovenda() {
+        return precovenda;
     }
 
-    public double getValorCompra() {
-        return ValorCompra;
+    public void setPrecovenda(double precovenda) {
+        this.precovenda = precovenda;
     }
 
-    public void setValorCompra(double ValorCompra) {
-        this.ValorCompra = ValorCompra;
+    public double getPrecocompra() {
+        return precocompra;
     }
 
-    public double getValorVenda() {
-        return ValorVenda;
-    }
-
-    public void setValorVenda(double ValorVenda) {
-        this.ValorVenda = ValorVenda;
+    public void setPrecocompra(double precocompra) {
+        this.precocompra = precocompra;
     }
     
     
+    
+   
 }
+

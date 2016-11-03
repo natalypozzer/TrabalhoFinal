@@ -47,9 +47,9 @@ public class MoedaTableModel extends AbstractTableModel{
         
         switch(columnIndex){
             case 0: return rs.getNome();
-            case 1: return rs.getData();
-            case 2: return rs.getValorCompra();
-            case 3: return rs.getValorVenda();
+            case 1: return rs.DatatoString();
+            case 2: return rs.getPrecocompra();
+            case 3: return rs.getPrecovenda();
             default : return "";
         }
     }
