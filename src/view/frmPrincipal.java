@@ -15,6 +15,8 @@ import java.util.logging.Logger;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Arquivo;
 import model.Moeda;
+import model.tablemodel.MoedaCellRenderer;
+import model.tablemodel.MoedaHeaderRenderer;
 import model.tablemodel.MoedaTableModel;
 
 /**
@@ -56,8 +58,10 @@ public class frmPrincipal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jnomeArquivo = new javax.swing.JLabel();
         jCheckTodas = new javax.swing.JCheckBox();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Trabalho Final Moedas");
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Data inicial:");
@@ -107,11 +111,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 355, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Gráfico", jPanel1);
@@ -135,15 +139,17 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jLabel4.setText("<html><b>Desenvolvedores:</b> Douglas Kihara <i>(krenjix)</i>, Nataly Pozzer <i>(natalypozzer)</i> e Volmar Madrid <i>(volspeed)</i>.</html>");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                     .addComponent(jTabbedPane1)
-                    .addGroup(layout.createSequentialGroup()
+                    .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(70, 70, 70)
@@ -163,9 +169,9 @@ public class frmPrincipal extends javax.swing.JFrame {
                             .addComponent(jCheckTodas)
                             .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                 .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                                .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addComponent(jLabel4))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,11 +192,14 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(jnomeArquivo)
                     .addComponent(jCheckTodas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 383, Short.MAX_VALUE)
+                .addGap(11, 11, 11)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6))
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void jFrmDataInicialActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jFrmDataInicialActionPerformed
@@ -249,6 +258,10 @@ public class frmPrincipal extends javax.swing.JFrame {
      */
     private void atualizarTab(){
         jTable1.setModel(modeltal);
+        for(int i=0; i < jTable1.getColumnCount(); i++){
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(new MoedaCellRenderer(modeltal.getLista()));
+            jTable1.getColumnModel().getColumn(i).setHeaderRenderer(new MoedaHeaderRenderer());
+        }
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -292,6 +305,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLblGrafico;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
