@@ -7,6 +7,10 @@ package view;
 
 
 
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -14,10 +18,13 @@ import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.ImageIcon;
+import javax.swing.JOptionPane;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Arquivo;
 import model.Grafico;
 import model.Moeda;
+import model.tablemodel.MoedaCellRenderer;
+import model.tablemodel.MoedaHeaderRenderer;
 import model.tablemodel.MoedaTableModel;
 
 /**
@@ -61,6 +68,8 @@ public class frmPrincipal extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jnomeArquivo = new javax.swing.JLabel();
         jCheckTodas = new javax.swing.JCheckBox();
+        jButton2 = new javax.swing.JButton();
+        jLabel4 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -112,11 +121,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 553, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Gráfico", jPanel1);
@@ -140,34 +149,50 @@ public class frmPrincipal extends javax.swing.JFrame {
             }
         });
 
+        jButton2.setText("Baixar Arquivo");
+        jButton2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton2ActionPerformed(evt);
+            }
+        });
+
+        jLabel4.setText("<html><b>Desenvolvedores:</b> Douglas Kihara <i>(krenjix)</i>, Nataly Pozzer <i>(natalypozzer)</i> e Volmar Madrid <i>(volspeed)</i>.</html>");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel4)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jFrmDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(1, 1, 1)
+                                .addComponent(jnomeArquivo)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFrmDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addGap(1, 1, 1)
-                        .addComponent(jnomeArquivo)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jCheckTodas)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(0, 0, Short.MAX_VALUE))
-            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jCheckTodas)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(31, 31, 31)
+                                .addComponent(jButton2)))
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -176,7 +201,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtnImportar))
+                    .addComponent(jBtnImportar)
+                    .addComponent(jButton2))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -188,7 +214,10 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(jnomeArquivo)
                     .addComponent(jCheckTodas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1))
+                .addComponent(jTabbedPane1)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -219,9 +248,11 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
-        System.out.println(jFrmDataInicial.getValue()+"--"+jFrmDataFinal.getValue());
+        //System.out.println(jFrmDataInicial.getValue()+"--"+jFrmDataFinal.getValue());
+        if(jFrmDataInicial.getValue()!=null&&jFrmDataFinal.getValue()!=null){
         if(!moedas.getLocalarquivo().equals(""))
-        {SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+        {
+        SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
          try {
             Date data_inicial = new Date(formato.parse(jFrmDataInicial.getText()).getTime());
             Date data_final = new Date(formato.parse(jFrmDataFinal.getText()).getTime());
@@ -234,7 +265,12 @@ public class frmPrincipal extends javax.swing.JFrame {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
         atualizarTab();
-        }        
+        }{
+         JOptionPane.showMessageDialog(this ,"Você não importou o arquivo" ,"Erro",JOptionPane.ERROR_MESSAGE);
+        }}
+        else{
+            JOptionPane.showMessageDialog(this ,"Você não digitou os campos de datas corretamente " ,"Erro",JOptionPane.ERROR_MESSAGE);
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCheckTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckTodasActionPerformed
@@ -247,6 +283,20 @@ public class frmPrincipal extends javax.swing.JFrame {
           jCheckTodas.setEnabled(false);
         }
     }//GEN-LAST:event_jCheckTodasActionPerformed
+
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+        Desktop d = Desktop.getDesktop();
+      try {
+         d.browse( new URI( "http://www4.bcb.gov.br/pec/taxas/port/ptaxnpesq.asp?id=txcotacao" ) );
+      }
+      catch ( IOException e ) {
+         System.out.println(e);
+      }
+      catch ( URISyntaxException e ) {
+         System.out.println(e);
+      }
+    }//GEN-LAST:event_jButton2ActionPerformed
     
     private void atualizaGrafico(){   
         novografico.geraGrafico(listamoedas);
@@ -258,6 +308,10 @@ public class frmPrincipal extends javax.swing.JFrame {
      */
     private void atualizarTab(){        
         jTable1.setModel(modeltal);
+        for(int i=0; i < jTable1.getColumnCount(); i++){
+            jTable1.getColumnModel().getColumn(i).setCellRenderer(new MoedaCellRenderer(modeltal.getLista()));
+            jTable1.getColumnModel().getColumn(i).setHeaderRenderer(new MoedaHeaderRenderer());
+        }
         atualizaGrafico();
     }
     public static void main(String args[]) {
@@ -295,6 +349,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnImportar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
     private javax.swing.JCheckBox jCheckTodas;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JFormattedTextField jFrmDataFinal;
@@ -302,6 +357,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLblGrafico;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
