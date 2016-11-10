@@ -7,10 +7,13 @@ package model;
 
 import java.io.FileOutputStream;
 import java.io.OutputStream;
+import java.util.List;
 import org.jfree.chart.ChartFactory;
 import org.jfree.chart.ChartUtilities;
 import org.jfree.chart.JFreeChart;
+import org.jfree.chart.axis.ValueAxis;
 import org.jfree.chart.plot.PlotOrientation;
+import org.jfree.chart.plot.XYPlot;
 import org.jfree.data.category.DefaultCategoryDataset;
 
 /**
@@ -19,18 +22,21 @@ import org.jfree.data.category.DefaultCategoryDataset;
  */
 public class Grafico {
     String grafico;
-    String eixoX;
-    String eixoY;
     
-    public void geraGrafico(){        
-    DefaultCategoryDataset ds = new DefaultCategoryDataset();
-    ds.addValue(40.5, "maximo", "dia 1");
-    ds.addValue(38.2, "maximo", "dia 2");
-    ds.addValue(37.3, "maximo", "dia 3");
-    ds.addValue(31.5, "maximo", "dia 4");
-    ds.addValue(35.7, "maximo", "dia 5");
-    ds.addValue(42.5, "maximo", "dia 6");    
-    JFreeChart grafico = ChartFactory.createLineChart("Meu Grafico", "Dia", "Valor", ds, PlotOrientation.VERTICAL, true, true, false);      
+    public void geraGrafico(List<Moeda> listamoedas){     
+    DefaultCategoryDataset ds = new DefaultCategoryDataset();   
+    if(listamoedas == null){
+        return;
+    }
+    for (int i = 0; i < listamoedas.size(); i++) {
+            ds.addValue(listamoedas.get(i).getPrecocompra(), "Preço de Compra", listamoedas.get(i).DatatoString());
+            ds.addValue(listamoedas.get(i).getPrecovenda(), "Preço de Venda", listamoedas.get(i).DatatoString());
+    
+    }   
+    JFreeChart grafico = ChartFactory.createLineChart("Variações da Moeda", "Dia", "Valor", ds, PlotOrientation.VERTICAL, true, true, false); 
+    //XYPlot plot = grafico.getXYPlot();    
+    //ValueAxis yAxis = plot.getRangeAxis();
+    //yAxis.setRange(3, 3.5);
     try{
         OutputStream arquivo = new FileOutputStream("grafico.png");
         ChartUtilities.writeChartAsPNG(arquivo, grafico, 550, 400);

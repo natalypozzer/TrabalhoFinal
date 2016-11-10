@@ -6,14 +6,17 @@
 package view;
 
 
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import javax.swing.ImageIcon;
 import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Arquivo;
+import model.Grafico;
 import model.Moeda;
 import model.tablemodel.MoedaTableModel;
 
@@ -24,11 +27,13 @@ import model.tablemodel.MoedaTableModel;
 public class frmPrincipal extends javax.swing.JFrame {
     private Arquivo moedas=new Arquivo();
     private MoedaTableModel modeltal;
+    private Grafico novografico = new Grafico();
+    List<Moeda> listamoedas;
     /**
      * Creates new form frmPrincipal
      */
     public frmPrincipal() {
-        initComponents();
+        initComponents();        
         //jTable1.setModel(new MoedaTableModel(new Arquivo().listarTodasMoedas()));
     }
 
@@ -107,11 +112,11 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 546, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 458, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Gráfico", jPanel1);
@@ -142,30 +147,27 @@ public class frmPrincipal extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jTabbedPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(70, 70, 70)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addComponent(jLabel1)
-                                    .addComponent(jLabel2))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(jFrmDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(jLabel3)
-                                .addGap(1, 1, 1)
-                                .addComponent(jnomeArquivo)))
+                        .addGap(70, 70, 70)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addComponent(jLabel1)
+                            .addComponent(jLabel2))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckTodas)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(0, 0, Short.MAX_VALUE)))
-                .addContainerGap())
+                            .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jFrmDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addComponent(jLabel3)
+                        .addGap(1, 1, 1)
+                        .addComponent(jnomeArquivo)))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jCheckTodas)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addComponent(jTabbedPane1, javax.swing.GroupLayout.Alignment.TRAILING)
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -186,8 +188,7 @@ public class frmPrincipal extends javax.swing.JFrame {
                     .addComponent(jnomeArquivo)
                     .addComponent(jCheckTodas))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
-                .addContainerGap())
+                .addComponent(jTabbedPane1))
         );
 
         pack();
@@ -198,7 +199,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     }//GEN-LAST:event_jFrmDataInicialActionPerformed
 
     private void jBtnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnImportarActionPerformed
-        // TODO add your handling code here:
+        // TODO add your handling code here:        
         jFileChooser1.addChoosableFileFilter(new FileNameExtensionFilter("Arquivo de csv(*.csv)","csv"));
         jFileChooser1.setAcceptAllFileFilterUsed(false);
         jFileChooser1.setMultiSelectionEnabled(false);
@@ -208,8 +209,10 @@ public class frmPrincipal extends javax.swing.JFrame {
             moedas.setLocalarquivo(jFileChooser1.getSelectedFile().getPath());
             System.out.println(jFileChooser1.getSelectedFile().getPath());
             modeltal=new MoedaTableModel(moedas.listarTodasMoedas());
+            listamoedas = moedas.listarTodasMoedas();
             jnomeArquivo.setText(jFileChooser1.getSelectedFile().getName());
             atualizarTab();
+            atualizaGrafico();
             jCheckTodas.setSelected(true);
         }
     }//GEN-LAST:event_jBtnImportarActionPerformed
@@ -224,13 +227,14 @@ public class frmPrincipal extends javax.swing.JFrame {
             Date data_final = new Date(formato.parse(jFrmDataFinal.getText()).getTime());
             List<Moeda> listafiltro=moedas.listarFiltro(data_inicial, data_final);
             modeltal=new MoedaTableModel(listafiltro);
+            listamoedas = listafiltro;
             jCheckTodas.setSelected(false);
             jCheckTodas.setEnabled(true);
          } catch (ParseException ex) {
             Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
         }
-        atualizarTab();}
-        
+        atualizarTab();
+        }        
     }//GEN-LAST:event_jButton1ActionPerformed
 
     private void jCheckTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckTodasActionPerformed
@@ -243,12 +247,18 @@ public class frmPrincipal extends javax.swing.JFrame {
           jCheckTodas.setEnabled(false);
         }
     }//GEN-LAST:event_jCheckTodasActionPerformed
-
+    
+    private void atualizaGrafico(){   
+        novografico.geraGrafico(listamoedas);
+        ImageIcon grafico = new ImageIcon("./grafico.png");
+        jLblGrafico.setIcon(grafico);
+    }
     /**
      * @param args the command line arguments
      */
-    private void atualizarTab(){
+    private void atualizarTab(){        
         jTable1.setModel(modeltal);
+        atualizaGrafico();
     }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
