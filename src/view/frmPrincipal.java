@@ -18,7 +18,11 @@ import model.Moeda;
 import model.tablemodel.MoedaCellRenderer;
 import model.tablemodel.MoedaHeaderRenderer;
 import model.tablemodel.MoedaTableModel;
-
+import java.awt.Desktop;
+import java.io.IOException;
+import java.net.URI;
+import java.net.URISyntaxException;
+      
 /**
  *
  * @author aluno
@@ -59,6 +63,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jnomeArquivo = new javax.swing.JLabel();
         jCheckTodas = new javax.swing.JCheckBox();
         jLabel4 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Trabalho Final Moedas");
@@ -111,7 +116,7 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 496, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 508, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -141,6 +146,13 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabel4.setText("<html><b>Desenvolvedores:</b> Douglas Kihara <i>(krenjix)</i>, Nataly Pozzer <i>(natalypozzer)</i> e Volmar Madrid <i>(volspeed)</i>.</html>");
 
+        jButton3.setText("Baixar Arquivo");
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -166,10 +178,15 @@ public class frmPrincipal extends javax.swing.JFrame {
                                 .addComponent(jnomeArquivo)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jCheckTodas)
-                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jCheckTodas)
+                                .addGap(0, 0, Short.MAX_VALUE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jButton3))))
                     .addComponent(jLabel4))
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -180,7 +197,8 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(jBtnImportar))
+                    .addComponent(jBtnImportar)
+                    .addComponent(jButton3))
                 .addGap(3, 3, 3)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
@@ -253,6 +271,24 @@ public class frmPrincipal extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_jCheckTodasActionPerformed
 
+    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
+        // TODO add your handling code here:
+     
+    }//GEN-LAST:event_jButton2ActionPerformed
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+       Desktop d = Desktop.getDesktop();
+      try {
+         d.browse( new URI( "http://www4.bcb.gov.br/pec/taxas/port/ptaxnpesq.asp?id=txcotacao" ) );
+      }
+      catch ( IOException e ) {
+         System.out.println(e);
+      }
+      catch ( URISyntaxException e ) {
+         System.out.println(e);
+      }    // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3ActionPerformed
+
     /**
      * @param args the command line arguments
      */
@@ -298,6 +334,7 @@ public class frmPrincipal extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnImportar;
     private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton3;
     private javax.swing.JCheckBox jCheckTodas;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JFormattedTextField jFrmDataFinal;
@@ -314,3 +351,4 @@ public class frmPrincipal extends javax.swing.JFrame {
     private javax.swing.JLabel jnomeArquivo;
     // End of variables declaration//GEN-END:variables
 }
+             
