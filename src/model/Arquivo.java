@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -17,12 +18,22 @@ import java.util.List;
  * @author Aluno
  */
 public class Arquivo {
-    
-    public List<Moeda> listarTodasMoedas(){
+    private List<Moeda> listamoedas;
+    private String localarquivo;
+
+    public String getLocalarquivo() {
+        return localarquivo;
+    }
+
+    public void setLocalarquivo(String localarquivo) {
+        this.localarquivo = localarquivo;
+        this.salvarTodasMoedas();
+    }
+    public void salvarTodasMoedas(){
         List moedas=new ArrayList<Moeda>();
         BufferedReader br =null; 
         try {
-            br=new BufferedReader(new FileReader("file.csv"));
+            br=new BufferedReader(new FileReader(localarquivo));
             String line = "";
                 while ((line = br.readLine()) != null) {
                     String[] row = line.split(";");
@@ -47,15 +58,23 @@ public class Arquivo {
             }
         }
     }
-        return moedas;
+        this.listamoedas=moedas;
   }
+  
+  public List<Moeda> listarTodasMoedas(){
+        return this.listamoedas;
+        }
+  
   public List<Moeda> listarFiltro(Date datainicial,Date datafinal){
-        List<Moeda> moedas=this.listarTodasMoedas();
         List modmoedas=new ArrayList<Moeda>();
-        for(int i=0;i<moedas.size();i++){
-            if(>moedas.get(i).getData())
-                
-            //    }}
+        for(int i=0;i<listamoedas.size();i++){
+            int com_datainicial=datainicial.compareTo(listamoedas.get(i).getData());
+            int com_datafinal=datafinal.compareTo(listamoedas.get(i).getData());
+            if(com_datainicial<=0&&com_datafinal>=0){
+                modmoedas.add(listamoedas.get(i));
+            }
+            
+        }
         return modmoedas;
 
 }}

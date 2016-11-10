@@ -5,7 +5,16 @@
  */
 package view;
 
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import model.Arquivo;
+import model.Moeda;
 import model.tablemodel.MoedaTableModel;
 
 /**
@@ -13,13 +22,14 @@ import model.tablemodel.MoedaTableModel;
  * @author aluno
  */
 public class frmPrincipal extends javax.swing.JFrame {
-    
+    private Arquivo moedas=new Arquivo();
+    private MoedaTableModel modeltal;
     /**
      * Creates new form frmPrincipal
      */
     public frmPrincipal() {
         initComponents();
-        jTable1.setModel(new MoedaTableModel(new Arquivo().listarTodasMoedas()));
+        //jTable1.setModel(new MoedaTableModel(new Arquivo().listarTodasMoedas()));
     }
 
     /**
@@ -42,12 +52,17 @@ public class frmPrincipal extends javax.swing.JFrame {
         jTable1 = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         jLblGrafico = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        jnomeArquivo = new javax.swing.JLabel();
+        jCheckTodas = new javax.swing.JCheckBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel1.setText("Data inicial:");
 
+        jFrmDataInicial.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
         jFrmDataInicial.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 jFrmDataInicialActionPerformed(evt);
@@ -56,6 +71,8 @@ public class frmPrincipal extends javax.swing.JFrame {
 
         jLabel2.setFont(new java.awt.Font("Tahoma", 1, 11)); // NOI18N
         jLabel2.setText("Data final:");
+
+        jFrmDataFinal.setFormatterFactory(new javax.swing.text.DefaultFormatterFactory(new javax.swing.text.DateFormatter()));
 
         jBtnImportar.setText("Importar CSV");
         jBtnImportar.addActionListener(new java.awt.event.ActionListener() {
@@ -90,14 +107,33 @@ public class frmPrincipal extends javax.swing.JFrame {
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 482, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 491, Short.MAX_VALUE)
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 373, Short.MAX_VALUE)
+            .addComponent(jLblGrafico, javax.swing.GroupLayout.DEFAULT_SIZE, 357, Short.MAX_VALUE)
         );
 
         jTabbedPane1.addTab("Gráfico", jPanel1);
+
+        jButton1.setText("Buscar por Data");
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jLabel3.setText("Arquivo Utilizado:");
+
+        jnomeArquivo.setText("Não Importado");
+
+        jCheckTodas.setText("Mostrar todas as moedas do arquivo");
+        jCheckTodas.setEnabled(false);
+        jCheckTodas.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jCheckTodasActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -108,37 +144,49 @@ public class frmPrincipal extends javax.swing.JFrame {
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(jTabbedPane1)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(70, 70, 70)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jLabel1)
-                            .addComponent(jLabel2))
-                        .addGap(18, 18, 18)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jFrmDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(30, 30, 30)
-                        .addComponent(jBtnImportar)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(70, 70, 70)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addComponent(jLabel1)
+                                    .addComponent(jLabel2))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jFrmDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, 150, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addGap(1, 1, 1)
+                                .addComponent(jnomeArquivo)))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jCheckTodas)
+                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(jButton1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jBtnImportar, javax.swing.GroupLayout.PREFERRED_SIZE, 109, javax.swing.GroupLayout.PREFERRED_SIZE)))
                         .addGap(0, 0, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel1)
-                            .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel2)
-                            .addComponent(jFrmDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jBtnImportar)))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel1)
+                    .addComponent(jFrmDataInicial, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jBtnImportar))
+                .addGap(3, 3, 3)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel2)
+                    .addComponent(jFrmDataFinal, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1))
                 .addGap(18, 18, 18)
-                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 401, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(jnomeArquivo)
+                    .addComponent(jCheckTodas))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 385, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -151,11 +199,57 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     private void jBtnImportarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jBtnImportarActionPerformed
         // TODO add your handling code here:
+        jFileChooser1.addChoosableFileFilter(new FileNameExtensionFilter("Arquivo de csv(*.csv)","csv"));
+        jFileChooser1.setAcceptAllFileFilterUsed(false);
+        jFileChooser1.setMultiSelectionEnabled(false);
+        
+        if(jFileChooser1.showOpenDialog(this)==jFileChooser1.APPROVE_OPTION)
+        {
+            moedas.setLocalarquivo(jFileChooser1.getSelectedFile().getPath());
+            System.out.println(jFileChooser1.getSelectedFile().getPath());
+            modeltal=new MoedaTableModel(moedas.listarTodasMoedas());
+            jnomeArquivo.setText(jFileChooser1.getSelectedFile().getName());
+            atualizarTab();
+            jCheckTodas.setSelected(true);
+        }
     }//GEN-LAST:event_jBtnImportarActionPerformed
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        // TODO add your handling code here:
+        System.out.println(jFrmDataInicial.getValue()+"--"+jFrmDataFinal.getValue());
+        if(!moedas.getLocalarquivo().equals(""))
+        {SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy");
+         try {
+            Date data_inicial = new Date(formato.parse(jFrmDataInicial.getText()).getTime());
+            Date data_final = new Date(formato.parse(jFrmDataFinal.getText()).getTime());
+            List<Moeda> listafiltro=moedas.listarFiltro(data_inicial, data_final);
+            modeltal=new MoedaTableModel(listafiltro);
+            jCheckTodas.setSelected(false);
+            jCheckTodas.setEnabled(true);
+         } catch (ParseException ex) {
+            Logger.getLogger(frmPrincipal.class.getName()).log(Level.SEVERE, null, ex);
+        }
+        atualizarTab();}
+        
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jCheckTodasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jCheckTodasActionPerformed
+        // TODO add your handling code here:
+        if(jCheckTodas.isSelected()){
+          modeltal=new MoedaTableModel(moedas.listarTodasMoedas());
+          jFrmDataFinal.setValue(null);
+          jFrmDataInicial.setValue(null);
+          atualizarTab();
+          jCheckTodas.setEnabled(false);
+        }
+    }//GEN-LAST:event_jCheckTodasActionPerformed
 
     /**
      * @param args the command line arguments
      */
+    private void atualizarTab(){
+        jTable1.setModel(modeltal);
+    }
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -190,15 +284,19 @@ public class frmPrincipal extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton jBtnImportar;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JCheckBox jCheckTodas;
     private javax.swing.JFileChooser jFileChooser1;
     private javax.swing.JFormattedTextField jFrmDataFinal;
     private javax.swing.JFormattedTextField jFrmDataInicial;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLblGrafico;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
+    private javax.swing.JLabel jnomeArquivo;
     // End of variables declaration//GEN-END:variables
 }
